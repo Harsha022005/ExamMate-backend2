@@ -3,20 +3,23 @@ import pg from "pg";
 import bcrypt from "bcrypt";
 import cors from "cors";
 import multer from "multer";
+import dotenv from "dotenv";
 import fs from "fs";
 
+dotenv.config();
+
 const app = express();
-const port = 8000;
+const port = 3000;
 const saltRounds = 10;
 
 // Database connection
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "Authentication",
-  password: "22L31A0568",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL, // Use the Render-provided DB URL
+  ssl: {
+    rejectUnauthorized: false, // Required for Render's PostgreSQL
+  },
 });
+
 
 (async () => {
   try {
